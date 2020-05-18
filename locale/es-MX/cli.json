@@ -1,0 +1,19 @@
+{
+  "name": "garnet",
+  "version": "0.0.1",
+  "author": "Nicole Mazzuca <nicole@strega-nil.co>",
+  "about": "Un navegador gemini TUI",
+
+  "help_message": "Imprime información de ayuda",
+  "version_message": "Imprime información de la version",
+
+  "args": [
+    {
+      "cli": {
+        "long": "cli",
+        "help": "Pone el garnet en modo CLI",
+        "required": true
+      }
+    }
+  ]
+}

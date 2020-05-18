@@ -1,0 +1,41 @@
+[package]
+name = "garnet"
+version = "0.0.0"
+authors = ["Nicole Mazzuca <nicole@strega-nil.co>"]
+
+edition = "2018"
+
+description = "A TUI gemini browser"
+license = "Apache-2.0"
+
+homepage = "https://github.com/strega-nil/garnet"
+repository = "https://github.com/strega-nil/garnet"
+documentation = "https://github.com/strega-nil/garnet"
+
+[features]
+# This is installed on the system; look in the system directories for resources
+# as opposed to in the directory of the exe
+system_install = []
+
+[build-dependencies.anyhow]
+version = "1.0.31"
+
+[dependencies.anyhow]
+version = "1.0.31"
+
+[dependencies.clap]
+version = "2.27.0"
+features = [ "yaml" ]
+
+[dependencies.fluent]
+version = "=0.12.0"
+[dependencies.fluent-langneg]
+version = "=0.13.0"
+
+[dependencies.unic-langid]
+version = "=0.9.0"
+features = [ "macros" ]
+
+[dependencies.winapi]
+version = "0.3.8"
+features = [ "stringapiset", "winnls" ]
