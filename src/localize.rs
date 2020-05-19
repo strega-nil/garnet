@@ -63,17 +63,16 @@ impl Localize {
 			let yaml_file = read_file(&locale_dir.join(CLI_LOCATION))?;
 			let mut yaml = clap::YamlLoader::load_from_str(&yaml_file)?;
 			if yaml.len() != 1 {
-				Err(anyhow::Error::msg("Invalid yaml from CLI file; should be exactly one document"))?;
+				return Err(anyhow::Error::msg(
+					"Invalid yaml from CLI file; should be exactly one document",
+				));
 			}
 			// I wish we didn't have to leak this...
 			let yaml = Box::leak(Box::new(yaml.pop().unwrap()));
 			clap::App::from_yaml(yaml).get_matches()
 		};
 
-		Ok(Localize {
-			bundle,
-			arguments,
-		})
+		Ok(Localize { bundle, arguments })
 	}
 
 	pub fn bundle(&self) -> &FluentBundle<FluentResource> {
@@ -106,13 +105,13 @@ fn get_current_locale() -> Result<Option<LanguageIdentifier>> {
 		stringapiset::WideCharToMultiByte,
 		winnls::{GetUserDefaultLocaleName, CP_UTF8, WC_ERR_INVALID_CHARS},
 		winnt::LOCALE_NAME_MAX_LENGTH,
-  };
+	};
 
-  if let Ok(id) = std::env::var("LC_MESSAGES") {
-    if !id.is_empty() {
-      return id.parse().map(Some).map_err(From::from);
-    }
-  }
+	if let Ok(id) = std::env::var("LC_MESSAGES") {
+		if !id.is_empty() {
+			return id.parse().map(Some).map_err(From::from);
+		}
+	}
 
 	unsafe {
 		let mut buffer = [0u16; LOCALE_NAME_MAX_LENGTH];
