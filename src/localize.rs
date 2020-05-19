@@ -98,7 +98,6 @@ fn get_locale_directory() -> Result<PathBuf> {
 	Ok(path)
 }
 
-// TODO: this should be an Option<LanguageIdentifier>, but laaaazy
 #[cfg(windows)]
 fn get_current_locale() -> Result<Option<LanguageIdentifier>> {
 	use winapi::um::{
@@ -147,6 +146,17 @@ fn get_current_locale() -> Result<Option<LanguageIdentifier>> {
 
 		Ok(Some(name.parse()?))
 	}
+}
+
+#[cfg(not(windows))]
+fn get_current_locale() -> Result<Option<LanguageIdentifier>> {
+	if let Ok(id) = std::env::var("LC_MESSAGES") {
+		if !id.is_empty() {
+			return id.parse().map(Some).map_err(From::from);
+		}
+	}
+
+	Ok(None)
 }
 
 fn get_supported_locales() -> Result<Vec<LanguageIdentifier>> {
