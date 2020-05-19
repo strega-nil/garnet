@@ -1,1 +1,0 @@
-hello-person = Hello, { $name }!

@@ -6,13 +6,13 @@ use unic_langid::{langid, LanguageIdentifier};
 
 use std::path::{Path, PathBuf};
 
+static FLUENT_RESOURCES: &[&str] = &["cli.ftl"];
+static CLI_LOCATION: &str = "clap.json";
+
 pub struct Localize {
 	bundle: FluentBundle<FluentResource>,
 	arguments: clap::ArgMatches<'static>,
 }
-
-static LOCALIZATION_RESOURCES: &[&str] = &["garnet.ftl"];
-static CLI_LOCATION: &str = "cli.json";
 
 fn read_file(path: &Path) -> Result<String> {
 	use std::io::Read;
@@ -39,15 +39,14 @@ impl Localize {
 			NegotiationStrategy::Filtering,
 		);
 
-		let current_locale = resolved_locales.get(0).unwrap();
+		let current_locale = *resolved_locales.get(0).unwrap();
 
-		let locale_dir =
-			get_locale_directory()?.join(current_locale.to_string());
+		let locale_dir = get_directory_for_locale(current_locale)?;
 
 		let bundle = {
 			let mut bundle = FluentBundle::new(resolved_locales.clone());
 
-			for path in LOCALIZATION_RESOURCES.iter() {
+			for path in FLUENT_RESOURCES.iter() {
 				let path = locale_dir.join(*path);
 				let source = read_file(&path)?;
 				let resource = FluentResource::try_new(source)
@@ -84,6 +83,13 @@ impl Localize {
 	pub fn args(&self) -> &clap::ArgMatches<'_> {
 		&self.arguments
 	}
+}
+
+fn get_directory_for_locale(l: &LanguageIdentifier) -> Result<PathBuf> {
+	let mut p = get_locale_directory()?;
+	p.push(l.to_string());
+	p.push("garnet");
+	Ok(p)
 }
 
 #[cfg(not(system_install))]

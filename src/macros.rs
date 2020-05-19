@@ -1,16 +1,3 @@
-macro_rules! log {
-  ($msg:expr) => {
-    if cfg!(debug_assertions) {
-      eprintln!(concat!("Log: ", $msg));
-    }
-  };
-  ($msg:expr, $($val:expr),*) => {
-    if cfg!(debug_assertions) {
-      eprintln!(concat!("Log: ", $msg), $($val,)*);
-    }
-  }
-}
-
 macro_rules! locformat_to {
   ($out:expr) => {
     <_ as std::io::Write>::write(&mut $out, b"\n")
@@ -37,21 +24,23 @@ macro_rules! locformat_to {
 }
 
 macro_rules! locprintln {
-	() => { locformat_to!(::std::io::stdout().lock()).expect("writing message failed") };
-	($out:expr, $loc:expr => $msg:expr) => {
-    locprintln!($out, $loc => ($msg) { })
+	() => { println!() };
+	($loc:expr => $msg:expr) => {
+    locprintln!($loc => ($msg) { })
   };
-	($loc:expr => ($msg:expr) { $( $name:expr => $value:expr ),* }) => {
+	($loc:expr => ($msg:expr) { $( $name:expr => $value:expr ),* }) => {{
     locformat_to!(::std::io::stdout().lock(), $loc => ($msg) { $( $name => $value ),* }).expect("writing message failed");
-  };
+    println!();
+  }};
 }
 
 macro_rules! loceprintln {
-	() => { locformat_to!(::std::io::stderr().lock()).expect("writing message failed") };
-	($out:expr, $loc:expr => $msg:expr) => {
-    loceprintln!($out, $loc => ($msg) { })
-  };
-	($loc:expr => ($msg:expr) { $( $name:expr => $value:expr ),* }) => {
+	() => { eprintln!() };
+	($out:expr, $loc:expr => $msg:expr) => {{
+    loceprintln!($out, $loc => ($msg) { });
+  }};
+	($loc:expr => ($msg:expr) { $( $name:expr => $value:expr ),* }) => {{
     locformat_to!(std::io::stderr().lock(), $loc => ($msg) { $( $name => $value ),* }).expect("writing message failed");
-  };
+    eprintln!();
+  }};
 }
