@@ -1,0 +1,17 @@
+
+[package]
+name = "garnet-gtk"
+version = "0.0.0"
+authors = ["Nicole Mazzuca <nicole@strega-nil.co>"]
+
+edition = "2018"
+
+description = "The GTK UI for Garnet. Not yet implemented."
+license = "Apache-2.0"
+
+homepage = "https://github.com/strega-nil/garnet"
+repository = "https://github.com/strega-nil/garnet"
+documentation = "https://github.com/strega-nil/garnet"
+
+[dependencies.garnet-core]
+version = "0.0.0"

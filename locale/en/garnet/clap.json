@@ -4,13 +4,5 @@
   "author": "Nicole Mazzuca <nicole@strega-nil.co>",
   "about": "A TUI gemini browser",
 
-  "args": [
-    {
-      "cli": {
-        "long": "cli",
-        "help": "Puts garnet into CLI mode",
-        "required": true
-      }
-    }
-  ]
+  "args": [ ]
 }
