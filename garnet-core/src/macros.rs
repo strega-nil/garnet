@@ -1,3 +1,4 @@
+#[macro_export]
 macro_rules! locformat_to {
   ($out:expr) => {
     <_ as std::io::Write>::write(&mut $out, b"\n")
@@ -6,8 +7,8 @@ macro_rules! locformat_to {
     locformat_to!($out, $loc => ($msg) { })
   };
 	($out:expr, $loc:expr => ($msg:expr) { $( $name:expr => $value:expr ),* }) => {{
-    let mut args = ::fluent::FluentArgs::new();
-    $(args.insert($name, ::fluent::FluentValue::from($value));)*
+    let mut args = $crate::fluent::FluentArgs::new();
+    $(args.insert($name, $crate::fluent::FluentValue::from($value));)*
 
 		let mut errors = vec![];
     let msg = $loc
@@ -23,6 +24,7 @@ macro_rules! locformat_to {
   }};
 }
 
+#[macro_export]
 macro_rules! locprintln {
 	() => { println!() };
 	($loc:expr => $msg:expr) => {
@@ -34,13 +36,14 @@ macro_rules! locprintln {
   }};
 }
 
+#[macro_export]
 macro_rules! loceprintln {
 	() => { eprintln!() };
 	($out:expr, $loc:expr => $msg:expr) => {{
     loceprintln!($out, $loc => ($msg) { });
   }};
 	($loc:expr => ($msg:expr) { $( $name:expr => $value:expr ),* }) => {{
-    locformat_to!(std::io::stderr().lock(), $loc => ($msg) { $( $name => $value ),* }).expect("writing message failed");
+    locformat_to!(::std::io::stderr().lock(), $loc => ($msg) { $( $name => $value ),* }).expect("writing message failed");
     eprintln!();
   }};
 }

@@ -46,9 +46,9 @@ checksum = "08c48aae112d48ed9f069b33538ea9e3e90aa263cfa3d1c24309612b1f7472de"
 
 [[package]]
 name = "cc"
-version = "1.0.53"
+version = "1.0.54"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "404b1fe4f65288577753b17e3b36a04596ee784493ec249bf81c7f2d2acd751c"
+checksum = "7bbb73db36c1246e9034e307d0fba23f9a2e251faa47ade70c1bd252220c8311"
 
 [[package]]
 name = "cfg-if"
@@ -157,12 +157,52 @@ name = "garnet"
 version = "0.0.0"
 dependencies = [
  "anyhow",
+ "garnet-cli",
+ "garnet-core",
+ "garnet-gtk",
+ "garnet-mac",
+ "garnet-win",
+]
+
+[[package]]
+name = "garnet-cli"
+version = "0.0.0"
+dependencies = [
+ "garnet-core",
+]
+
+[[package]]
+name = "garnet-core"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
  "clap",
  "fluent",
  "fluent-langneg",
  "native-tls",
  "unic-langid",
  "winapi",
+]
+
+[[package]]
+name = "garnet-gtk"
+version = "0.0.0"
+dependencies = [
+ "garnet-core",
+]
+
+[[package]]
+name = "garnet-mac"
+version = "0.0.0"
+dependencies = [
+ "garnet-core",
+]
+
+[[package]]
+name = "garnet-win"
+version = "0.0.0"
+dependencies = [
+ "garnet-core",
 ]
 
 [[package]]
@@ -306,9 +346,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.5"
+version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "42934bc9c8ab0d3b273a16d8551c8f0fcff46be73276ca083ec2414c15c4ba5e"
+checksum = "54a21852a652ad6f610c9510194f398ff6f8692e334fd1145fed931f7fbe44ea"
 dependencies = [
  "proc-macro2",
 ]

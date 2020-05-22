@@ -5,7 +5,7 @@ authors = ["Nicole Mazzuca <nicole@strega-nil.co>"]
 
 edition = "2018"
 
-description = "A TUI gemini browser"
+description = "A cross-platform locale-sensitive gemini browser"
 license = "Apache-2.0"
 
 homepage = "https://github.com/strega-nil/garnet"
@@ -17,28 +17,49 @@ documentation = "https://github.com/strega-nil/garnet"
 # as opposed to in the directory of the exe
 system_install = []
 
+[[bin]]
+name = "garnet"
+path = "src/gui.rs"
+
+[[bin]]
+name = "garnet-cli"
+path = "src/cli.rs"
+
+[workspace]
+members = [
+  ".",
+  "garnet-core",
+  "garnet-cli",
+  "garnet-win",
+  "garnet-gtk",
+  "garnet-mac",
+]
+
 [build-dependencies.anyhow]
 version = "1.0.31"
 
-[dependencies.anyhow]
-version = "1.0.31"
+[dependencies.garnet-core]
+version = "0.0.0"
 
-[dependencies.clap]
-version = "2.27.0"
-features = [ "yaml" ]
+[dependencies.garnet-cli]
+version = "0.0.0"
 
-[dependencies.native-tls]
-version = "=0.2.4"
+[target.'cfg(target_os="windows")'.dependencies.garnet-win]
+version = "0.0.0"
 
-[dependencies.fluent]
-version = "=0.12.0"
-[dependencies.fluent-langneg]
-version = "=0.13.0"
+[target.'cfg(target_os="linux")'.dependencies.garnet-gtk]
+version = "0.0.0"
 
-[dependencies.unic-langid]
-version = "=0.9.0"
-features = [ "macros" ]
+[target.'cfg(target_os="macos")'.dependencies.garnet-mac]
+version = "0.0.0"
 
-[dependencies.winapi]
-version = "0.3.8"
-features = [ "stringapiset", "winnls" ]
+[patch.crates-io.garnet-core]
+path = "garnet-core"
+[patch.crates-io.garnet-cli]
+path = "garnet-cli"
+[patch.crates-io.garnet-win]
+path = "garnet-win"
+[patch.crates-io.garnet-gtk]
+path = "garnet-gtk"
+[patch.crates-io.garnet-mac]
+path = "garnet-mac"
