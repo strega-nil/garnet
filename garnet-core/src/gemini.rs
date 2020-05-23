@@ -1,4 +1,4 @@
-use crate::Result;
+use crate::prelude::*;
 
 use std::io::{Read, Write};
 use std::net::TcpStream;

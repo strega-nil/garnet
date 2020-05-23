@@ -1,45 +1,71 @@
-"on":
-  "push":
-    "branches":
-      - "trunk"
-  "pull_request":
-    "branches":
-      - "trunk"
+{
+  "on": {
+    "push": {
+      "branches": [ "master" ]
+    },
+    "pull_request": {
+      "branches": [ "master" ]
+    }
+  },
 
-"jobs":
-  "build":
-    "name": "Build"
-    "runs-on": "${{ matrix.os }}"
-    "strategy":
-      "matrix":
-        "os": [ "ubuntu-18.04", "windows-2019", "macos-10.15" ]
-    "steps":
-      - "uses": "actions/checkout@v2"
-      - "name": "Cache target directory"
-        "uses": "actions/cache@v1"
-        "with":
-          "key": "${{ runner.os }}-target"
-          "path": "target"
-      - "name": "Build"
-        "run": "cargo build"
-  "lint":
-    "name": "Check formatting and lint"
-    "runs-on": "ubuntu-18.04"
-    "steps":
-      - "uses": "actions/checkout@v2"
-      - "uses": "actions-rs/toolchain@v1"
-        "with":
-          "profile": "minimal"
-          "toolchain": "stable"
-          "override": "true"
-          "components": "rustfmt, clippy"
-      - "name": "Check formatting"
-        "uses": "actions-rs/cargo@v1"
-        "with":
-          "command": "fmt"
-          "args": "--all -- --check"
-      - "name": "Lint"
-        "uses": "actions-rs/cargo@v1"
-        "with":
-          "command": "clippy"
-          "args": "-- -D warnings"
+  "jobs": {
+    "build": {
+      "name": "Build",
+      "runs-on": "${{ matrix.os }}",
+      "strategy": {
+        "matrix": {
+          "os": [ "ubuntu-18.04", "windows-2019", "macos-10.15" ]
+        }
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v2"
+        },
+        {
+          "name": "Cache target directory",
+          "uses": "actions/cache@v1",
+          "with": {
+            "key": "${{ runner.os }}-target",
+            "path": "target"
+          },
+        },
+        {
+          "name": "Build",
+          "run": "cargo build"
+        }
+      ]
+    },
+    "lint": {
+      "name": "Check formatting and lint",
+      "runs-on": "ubuntu-18.04",
+      "steps": [
+        { "uses": "actions/checkout@v2" },
+        {
+          "uses": "actions-rs/toolchain@v1",
+          "with": {
+            "profile": "minimal",
+            "toolchain": "stable",
+            "override": "true",
+            "components": "rustfmt, clippy"
+          }
+        },
+        {
+          "name": "Check formatting",
+          "uses": "actions-rs/cargo@v1",
+          "with": {
+            "command": "fmt",
+            "args": "--all -- --check"
+          }
+        },
+        {
+          "name": "Lint",
+          "uses": "actions-rs/cargo@v1",
+          "with": {
+            "command": "clippy",
+            "args": "-- -D warnings"
+          }
+        }
+      ]
+    }
+  }
+}
