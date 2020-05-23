@@ -30,9 +30,9 @@ members = [
   ".",
   "garnet-core",
   "garnet-cli",
-  "garnet-win",
+  #"garnet-win",
   "garnet-gtk",
-  "garnet-mac",
+  #"garnet-mac",
 ]
 
 [build-dependencies.anyhow]

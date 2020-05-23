@@ -1,5 +1,5 @@
 use garnet_core::prelude::*;
 
-fn main() -> Result<()> {
+pub fn main() -> Result<()> {
   Err(Error::msg("Unimplemented"))
 }
