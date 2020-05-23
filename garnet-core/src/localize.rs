@@ -9,8 +9,10 @@ use std::path::{Path, PathBuf};
 static FLUENT_RESOURCES: &[&str] = &["cli.ftl"];
 static CLAP_LOCATION: &str = "clap.json";
 
-static FALLBACK_FLUENT_RESOURCES: &[&str] = &[include_str!("../../locale/en/garnet/cli.ftl")];
-static FALLBACK_CLAP: &str = include_str!("../../locale/en/garnet/clap.json");
+static FALLBACK_FLUENT_RESOURCES: &[&str] =
+	&[include_str!("../../locale/en/garnet/cli.ftl")];
+static FALLBACK_CLAP: &str =
+	include_str!("../../locale/en/garnet/clap.json");
 
 pub struct Localize {
 	bundle: FluentBundle<FluentResource>,
@@ -43,7 +45,11 @@ impl Localize {
 		);
 
 		let current_locale = *resolved_locales.get(0).unwrap();
-		let current_locale_dir = locale_directory.map(|l| get_current_locale_directory(l.to_owned(), current_locale)).transpose()?;
+		let current_locale_dir = locale_directory
+			.map(|l| {
+				get_current_locale_directory(l.to_owned(), current_locale)
+			})
+			.transpose()?;
 
 		let bundle = {
 			let mut bundle = FluentBundle::new(resolved_locales.clone());
@@ -100,7 +106,10 @@ impl Localize {
 	}
 }
 
-fn get_current_locale_directory(mut locale_dir: PathBuf, l: &LanguageIdentifier) -> Result<PathBuf> {
+fn get_current_locale_directory(
+	mut locale_dir: PathBuf,
+	l: &LanguageIdentifier,
+) -> Result<PathBuf> {
 	locale_dir.push(l.to_string());
 	locale_dir.push("garnet");
 	Ok(locale_dir)
@@ -167,7 +176,9 @@ fn get_current_locale() -> Result<Option<LanguageIdentifier>> {
 	Ok(None)
 }
 
-fn get_supported_locales(locale_dir: Option<&Path>) -> Result<Vec<LanguageIdentifier>> {
+fn get_supported_locales(
+	locale_dir: Option<&Path>,
+) -> Result<Vec<LanguageIdentifier>> {
 	use std::{fs::DirEntry, io};
 
 	fn locale_of_path(
@@ -196,6 +207,4 @@ fn get_supported_locales(locale_dir: Option<&Path>) -> Result<Vec<LanguageIdenti
 	} else {
 		Ok(vec![langid!("en")])
 	}
-
-
 }

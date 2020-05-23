@@ -1,8 +1,5 @@
 use garnet_core::prelude::*;
-use garnet_core::{
-	gemini,
-	localize::Localize,
-};
+use garnet_core::{gemini, localize::Localize};
 
 enum Input {
 	Help,
@@ -20,7 +17,7 @@ fn get_input() -> Result<Input> {
 	let mut stdout = std::io::stdout();
 
 	loop {
-		stdout.write(b"> ")?;
+		stdout.write_all(b"> ")?;
 		stdout.flush()?;
 
 		stdin.read_line(&mut input)?;
